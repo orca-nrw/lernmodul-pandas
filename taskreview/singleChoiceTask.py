@@ -21,8 +21,8 @@ class SingleChoiceTask(Task):
         Checks the solution when the check button is clicked
     evaluate_task()
         Evaluates the task
-    display_buttons()
-        Displays the single choice, check and tipp buttons
+    display_sc_buttons()
+        Displays the single choice buttons
     get_correct_answer_index()
         Gets the index of the correct answer in the options
     """
@@ -57,15 +57,14 @@ class SingleChoiceTask(Task):
     def evaluate_task(self):
         """Makes it possible to evaluate the task by displaying the buttons
         """
-
+        self.display_sc_buttons()
         self.display_buttons()
 
-    def display_buttons(self):
+    def display_sc_buttons(self):
         """Displays the single choice, check and tipp buttons
         """
 
         self.single_choice_widgets.display_single_choice_buttons()
-        self.widgets.display_check_btn()
 
     def get_correct_answer_index(self):
         """Gets the index of the correct answer in the options

@@ -1,6 +1,6 @@
 from taskreview.taskDatabase import TaskDatabase
 from taskreview.counter import Counter
-from taskreview.dataframeTask import DataframeTask, SparkDataframeTask
+from taskreview.dataframeTask import PandasDataframeTask, SparkDataframeTask
 from taskreview.singleChoiceTask import SingleChoiceTask
 from taskreview.taskEvaluationWidgets import TaskEvaluationWidgets
 
@@ -51,9 +51,14 @@ class LearningModule:
         solution : object
             solution that may be submitted by the user
         """
-        task_type = self.db.get_task_type(task_id)
+        try:
+            task_type = self.db.get_task_type(task_id)
+        except TypeError as e:
+            print(str(e) + "\nZu dieser Task-ID existiert keine Aufgabe.")
+            return
+        
         if task_type == "DFP":
-            task = DataframeTask(self.db, task_id)
+            task = PandasDataframeTask(self.db, task_id)
             task.evaluate_task(solution)
         elif task_type == "DFS":
             task = SparkDataframeTask(self.db, task_id)
@@ -61,12 +66,13 @@ class LearningModule:
         elif task_type == "SC":
             task = SingleChoiceTask(self.db, task_id)
             task.evaluate_task()
-        else:
-            print("Es wurde kein Task-Type hinterlegt")
-            return
         
-        self.taskList.append(task)
-
+        try:
+            self.taskList.append(task)
+        except UnboundLocalError as e:
+            print(str(e) + "\nFür diese Aufgabe wurde kein Task-Type hinterlegt.")
+            return
+    
     def get_num_correct_answered(self):
         """Gets the number of correct answers in the learning module
         (Can be carried out at any point in the learning module)

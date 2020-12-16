@@ -151,6 +151,13 @@ class TaskEvaluationWidgets:
         with self.out_txt:
             clear_output()
     
+    def display_check_and_solution_button(self):
+        """Displays the check and solution button
+        """
+        with self.out_buttons:
+            clear_output()
+            display(HBox([self.btn_check, self.btn_solution]))
+    
     def display_check_tipp_and_solution_button(self):
         """Displays the check, tipp and solution button
         """  
@@ -167,7 +174,7 @@ class TaskEvaluationWidgets:
         with self.out_buttons:
             clear_output()
             display(self.btn_submit)
-    
+
     def display_disabled_check_and_tipp_button(self):
         """Displays the disabled check and tipp button
         """
@@ -178,19 +185,23 @@ class TaskEvaluationWidgets:
     ################################   
     ### display text and image #####
     ################################
-    
-    def display_text_in_output_field(self, text):
-        """Displays the text in the output field
+            
+    def display_html_in_output_field(self, text):
+        """Displays html in output field
 
         Parameters
         -------
         text : string
-            Text to be displayed
+            text to be displayed as html
         """
+        
+        html = widgets.HTML(
+            value=text
+        )
 
         with self.out_txt:
             clear_output()
-            display(text)
+            display(html)
     
     def create_check_image(self):
         """Creates the check image out of an image file

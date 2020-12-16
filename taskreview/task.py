@@ -140,7 +140,7 @@ class Task(ABC):
 
         """
 
-        self.widgets.display_text_in_output_field(self.solution_as_text)
+        self.widgets.display_html_in_output_field(self.solution_as_text)
         
     def print_tipp(self, button):
         """Prints the tipp of a task
@@ -152,7 +152,7 @@ class Task(ABC):
 
         """
 
-        self.widgets.display_text_in_output_field(self.tipp)    
+        self.widgets.display_html_in_output_field(self.tipp)    
     
     ################################
     ### display buttons for task ###
@@ -161,19 +161,22 @@ class Task(ABC):
     def display_buttons(self):
         """Displays the buttons needed for task evaluation
         """
-
-        self.widgets.display_check_and_tipp_btn()
+        if not self.tipp:
+            self.widgets.display_check_btn()
+        else:
+            self.widgets.display_check_and_tipp_btn()
         
     def display_solution_btn(self):
         """Adds a solution button next to the check and tipp button
         """
-
-        self.widgets.display_check_tipp_and_solution_button()
+        if not self.tipp:
+            self.widgets.display_check_and_solution_button()
+        else:
+            self.widgets.display_check_tipp_and_solution_button()
     
     def display_disabled_buttons(self):
-        """Displays the disabled check and tipp buttons
+        """Displays the disabled check (and tipp) buttons
         """
-
         self.widgets.display_disabled_check_and_tipp_button()
 
     ###############################
@@ -196,7 +199,7 @@ class Task(ABC):
 
         """
 
-        self.widgets.display_text_in_output_field(text)
+        self.widgets.display_html_in_output_field(text)
     
     ########################
     ### abstract methods ###
