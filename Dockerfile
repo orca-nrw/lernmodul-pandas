@@ -19,6 +19,7 @@ WORKDIR ${HOME}
 
 USER root
 RUN chown -R ${NB_UID} ${HOME}
+RUN chown -R ${NB_UID} ${HOME}/data
 # copy all content to home directory and make the files owned by the created user
 COPY . ${HOME}
 USER ${NB_USER}
