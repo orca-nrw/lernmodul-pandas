@@ -2,7 +2,7 @@ FROM python:3.7-slim
 
 # install the packages
 RUN pip install --no-cache --upgrade pip \
-    && pip install --no-cache notebook pandas ipywidgets
+    && pip install --no-cache notebook pandas ipywidgets SQLAlchemy pyspark
 
 # create user with a home directory
 ARG NB_USER=jovyan
