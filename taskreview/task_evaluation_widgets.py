@@ -1,6 +1,8 @@
+"""Module that contains a class to create task evaluation widgets."""
+
 from IPython.core.display import display
 from IPython.display import clear_output
-from ipywidgets import widgets, Button, HBox, Output, VBox, Layout
+from ipywidgets import widgets, HBox, Output, Layout
 
 class TaskEvaluationWidgets:
     """
@@ -35,7 +37,7 @@ class TaskEvaluationWidgets:
     display_text_in_output_field()
         Displays the given text
     create_check_image()
-        Creates the check image 
+        Creates the check image
     display_check_img()
         Displays the check image
     """
@@ -43,12 +45,17 @@ class TaskEvaluationWidgets:
     def __init__(self):
         self.out_txt = Output()
         self.out_buttons = Output()
-        
+
+        self.btn_tipp = None
+        self.btn_check = None
+        self.btn_solution = None
+        self.btn_submit = None
+
         self.create_check_image()
-    
+
     def create_button(self, description, tooltip, icon, method):
         """General method to create a button, used to create different buttons
-        
+
         Parameters
         -------
         description : string
@@ -67,19 +74,19 @@ class TaskEvaluationWidgets:
         """
 
         btn = widgets.Button(
-            description= description,
+            description=description,
             disabled=False,
-            tooltip= tooltip,
-            icon = icon
+            tooltip=tooltip,
+            icon=icon
         )
         btn.on_click(method)
-        
+
         return btn
-       
+
     ###########################################
     ### create buttons for task evaluation ####
     ###########################################
-    
+
     def create_tipp_button(self, method):
         """Creates a tipp button
 
@@ -90,7 +97,7 @@ class TaskEvaluationWidgets:
         """
 
         self.btn_tipp = self.create_button('Tipp', 'Tipp', '', method)
-    
+
     def create_check_button(self, method):
         """Creates a check button
 
@@ -100,8 +107,9 @@ class TaskEvaluationWidgets:
             Method that is called when the button is clicked
         """
 
-        self.btn_check = self.create_button('Auswertung', 'Auswertung', 'check', method)
-    
+        self.btn_check = self.create_button('Auswertung', \
+            'Auswertung', 'check', method)
+
     def create_solution_button(self, method):
         """Creates a solution button
 
@@ -110,8 +118,9 @@ class TaskEvaluationWidgets:
         method
             Method that is called when the button is clicked
         """
+
         self.btn_solution = self.create_button('Lösung', 'Lösung', '', method)
-    
+
     def create_submit_button(self, method):
         """Creates a submit button
 
@@ -121,19 +130,23 @@ class TaskEvaluationWidgets:
             Method that is called when the button is clicked
         """
 
-        self.btn_submit = self.create_button('Auswertung abschicken', 'Auswertung abschicken', '', method)
-        self.btn_submit.layout = Layout(width = "160px")
+        self.btn_submit = self.create_button('Auswertung abschicken', \
+            'Auswertung abschicken', '', method)
+        self.btn_submit.layout = Layout(width="160px")
 
     ############################################
     ### display buttons for task evaluation ####
     ############################################
-    
+
     def display_check_btn(self):
+        """Displays the check Button
+        """
+
         display(self.out_buttons)
         with self.out_buttons:
             clear_output()
             display(self.btn_check)
-        
+
         display(self.out_txt)
         with self.out_txt:
             clear_output()
@@ -146,26 +159,27 @@ class TaskEvaluationWidgets:
         with self.out_buttons:
             clear_output()
             display(HBox([self.btn_check, self.btn_tipp]))
-        
+
         display(self.out_txt)
         with self.out_txt:
             clear_output()
-    
+
     def display_check_and_solution_button(self):
         """Displays the check and solution button
         """
+
         with self.out_buttons:
             clear_output()
             display(HBox([self.btn_check, self.btn_solution]))
-    
+
     def display_check_tipp_and_solution_button(self):
         """Displays the check, tipp and solution button
-        """  
+        """
 
         with self.out_buttons:
             clear_output()
             display(HBox([self.btn_check, self.btn_tipp, self.btn_solution]))
-    
+
     def display_submit_button(self):
         """Displays the submit button
         """
@@ -181,11 +195,11 @@ class TaskEvaluationWidgets:
 
         self.btn_check.disabled = True
         self.btn_tipp.disabled = True
-     
-    ################################   
+
+    ################################
     ### display text and image #####
     ################################
-            
+
     def display_html_in_output_field(self, text):
         """Displays html in output field
 
@@ -194,7 +208,7 @@ class TaskEvaluationWidgets:
         text : string
             text to be displayed as html
         """
-        
+
         html = widgets.HTML(
             value=text
         )
@@ -202,7 +216,7 @@ class TaskEvaluationWidgets:
         with self.out_txt:
             clear_output()
             display(html)
-    
+
     def create_check_image(self):
         """Creates the check image out of an image file
         """
