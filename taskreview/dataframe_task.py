@@ -33,7 +33,7 @@ class PandasDataframeTask(Task):
     calculate_scored_points()
         Calculates points achieved in the task
     prepare_solution_df()
-        Convert date columns to datetime datatype
+        Convert columns for dataframe comparison
     """
 
     def check_solution(self, button):
@@ -225,6 +225,9 @@ class PandasDataframeTask(Task):
         if it is of datetime datatype in the user DataFrame. Important for
         comparison of the two dataframes. Datetime datatype is not exported from database
         therefore the two dataframes won't be equal due to different datatypes.
+        The same applies to category datatype. Since the categories are not in the correct
+        order, when a column is converted to category datatype, the category column of the
+        user solution is converted to object.
         """
         # check if solution column has to be converted to datetime
         for name in self.solution.columns.values:
@@ -232,6 +235,12 @@ class PandasDataframeTask(Task):
                 if self.user_solution[name].dtype == 'datetime64[ns]':
                     try:
                         self.solution[name] = pd.to_datetime(self.solution[name])
+                    except Exception:
+                        pass
+                    
+                if self.user_solution[name].dtype.name == 'category':
+                    try:
+                        self.user_solution[name] = self.user_solution[name].astype(object)
                     except Exception:
                         pass
 
