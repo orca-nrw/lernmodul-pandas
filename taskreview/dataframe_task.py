@@ -3,6 +3,7 @@
 from IPython.core.display import display
 try:
     import pandas as pd
+    from pyspark.sql import DataFrame
 except ModuleNotFoundError:
     pass
 
@@ -32,7 +33,9 @@ class PandasDataframeTask(Task):
         Evaluates the task based on the submitted solution
     calculate_scored_points()
         Calculates points achieved in the task
-    prepare_solution_df()
+    user_input_of_correct_datatype(solution)
+        check if user input is of pandas dataframe or series datatype
+    prepare_dataframes()
         Convert columns for dataframe comparison
     """
 
@@ -44,7 +47,7 @@ class PandasDataframeTask(Task):
         button: Button
             Button that has been clicked to execute this method
         """
-        self.prepare_solution_df()
+        self.prepare_dataframes()
         # reset_index(drop=True) needed as indexes from selected cells may
         # vary between user columns and solution columns
         if self.solution.equals(self.user_solution.reset_index(drop=True)):
@@ -205,22 +208,44 @@ class PandasDataframeTask(Task):
 
     def evaluate_task(self, solution):
         """Makes it possible to evaluate the task by displaying the buttons.
-        Display user solution.
+        Display user solution. Series are converted to a dataframe.
 
         Parameters
         ----------
         df : pandas.DataFrame
             Dataframe that the user submitted
         """
+        self.user_solution = solution
 
-        display(solution)
-        if isinstance(solution, pd.Series):
-            self.user_solution = solution.to_frame().reset_index()
+        if self.user_input_of_correct_datatype(solution):
+            if isinstance(self.user_solution, pd.Series):
+                self.user_solution = self.user_solution.to_frame().reset_index()
+            display(solution)
+            self.display_buttons()
+
+    def user_input_of_correct_datatype(self, solution):
+        """Checks if the user passed a pandas dataframe or series. Otherwise a message is
+        displayed to inform the user that the input is of the wrong datatype.
+
+        Parameters
+        ----------
+        solution: object
+            solution that the user passed to the task evaluation
+
+        Return
+        ----------
+        boolean
+            if the user input is of correct datatype
+
+        """
+        if isinstance(solution, pd.DataFrame) or isinstance(solution,  pd.Series):
+            return True
         else:
-            self.user_solution = solution
-        self.display_buttons()
+            print("Als Eingabe wird ein Pandas DataFrame oder eine Pandas \
+Series erwartet.")
+            return False
 
-    def prepare_solution_df(self):
+    def prepare_dataframes(self):
         """Tries to convert the columns of solution DataFrame to datetime datatype
         if it is of datetime datatype in the user DataFrame. Important for
         comparison of the two dataframes. Datetime datatype is not exported from database
@@ -229,15 +254,15 @@ class PandasDataframeTask(Task):
         order, when a column is converted to category datatype, the category column of the
         user solution is converted to object.
         """
-        # check if solution column has to be converted to datetime
         for name in self.solution.columns.values:
             if name in self.user_solution.columns.values:
+                # check if solution column has to be converted to datetime
                 if self.user_solution[name].dtype == 'datetime64[ns]':
                     try:
                         self.solution[name] = pd.to_datetime(self.solution[name])
                     except Exception:
                         pass
-                    
+                # check if user solution column is of type category
                 if self.user_solution[name].dtype.name == 'category':
                     try:
                         self.user_solution[name] = self.user_solution[name].astype(object)
@@ -253,6 +278,8 @@ class SparkDataframeTask(PandasDataframeTask):
     -------
     evaluate_task(df)
         Evaluates the task based on the submitted solution
+    user_input_of_correct_datatype(solution)
+        check if user input is of spark dataframe datatype
     """
 
     def evaluate_task(self, solution):
@@ -264,7 +291,29 @@ class SparkDataframeTask(PandasDataframeTask):
         df : pyspark.sql.DataFrame
             Dataframe that the user submitted
         """
+        if self.user_input_of_correct_datatype(solution):
+            solution.show()
+            self.user_solution = solution.toPandas()
+            self.display_buttons()
 
-        solution.show()
-        self.user_solution = solution.toPandas()
-        self.display_buttons()
+
+    def user_input_of_correct_datatype(self, solution):
+        """Checks if the user passed a PySpark dataframe. Otherwise a message is
+        displayed to inform the user that the input is of the wrong datatype.
+
+        Parameters
+        ----------
+        solution: object
+            solution that the user passed to the task evaluation
+
+        Return
+        ----------
+        boolean
+            if the user input is of correct datatype
+
+        """
+        if isinstance(solution, DataFrame):
+            return True
+        else:
+            print("Als Eingabe wird ein PySpark DataFrame erwartet.")
+            return False
