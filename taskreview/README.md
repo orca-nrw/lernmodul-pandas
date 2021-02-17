@@ -1,1 +1,0 @@
-This package contains the modules used for task review in the EILD.nrw MP project.

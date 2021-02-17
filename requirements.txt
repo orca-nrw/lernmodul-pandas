@@ -1,0 +1,6 @@
+pandas
+ipywidgets
+notebook
+SQLAlchemy
+seaborn
+jupyternb-task-review
