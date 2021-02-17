@@ -1,5 +1,8 @@
 FROM python:3.7-slim
 
+COPY ./requirements.txt /opt/app/requirements.txt
+WORKDIR /opt/app
+
 # install the packages
 RUN pip install --no-cache --upgrade pip \
     && pip install --no-cache -r requirements.txt
