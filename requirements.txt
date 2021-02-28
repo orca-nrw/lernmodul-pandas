@@ -1,6 +1,6 @@
 pandas
-ipywidgets
+ipywidgets===7.6.3
 notebook
 SQLAlchemy
 seaborn
-jupyternb-task-review
+jupyternb-task-review===1.2.0
