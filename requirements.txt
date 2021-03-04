@@ -3,4 +3,4 @@ ipywidgets===7.6.3
 notebook
 SQLAlchemy
 seaborn
-jupyternb-task-review===1.2.0
+jupyternb-task-review===1.2.2
