@@ -19,6 +19,6 @@ docker run -p 8888:8888 lernmodulpandas:1.0
 
 ### Über dieses Lernmodul
 
-Dieses Lernmodul wurde im Rahmen des EILD.nrw-Projektes an der Hochschule Düsseldorf erstellt, nähre Informationen unter [eild.nrw](https://eild.nrw). Das Lernmodul kann unter foldender [Lizenz](https://github.com/orca-nrw/lm-database-with-python/blob/master/LICENSE) genutzt werden.
+Dieses Lernmodul wurde im Rahmen des EILD.nrw-Projektes an der Hochschule Düsseldorf erstellt, nähre Informationen unter [eild.nrw](https://eild.nrw). Das Lernmodul kann unter foldender [Lizenz](LICENSE) genutzt werden.
 
 ![logos.jpg](https://github.com/orca-nrw/lm-database-with-python/raw/master/logos.jpg)
