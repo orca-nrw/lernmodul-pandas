@@ -4,7 +4,7 @@
 
 Bei pandas handelt es sich um eine der beliebtesten Python Bibliothek zur Datenanalyse. Diese wird dazu benötigt mit Daten in Form von Tabellen arbeiten zu können. Sie stellt verschiedene Funktionalitäten zum Datenimport, zur Datenanalyse und zur Datenmanipulation zur Verfügung. Mithilfe dieses Lernmoduls soll der grundlegende Umgang mit pandas erlernt und geübt werden. Durch interaktive Aufgaben kann die Anwendung des erlernten Wissens selbstständig geübt und nochmal vertieft werden. Dabei wird der Fokus auf den Datenimport und die Datenvorbereitung gelegt, indem die dafür zur Verfügung stehenden wichtigsten Funktionalitäten erläutert werden.
 
-Schlagworte: EILD.nrw, Datenbanksysteme, Datenbank, Diagramme, Jupyter Notebook, Python, Pandas
+Schlagworte: EILD.nrw, Datenbanksysteme, Datenbank, Jupyter Notebook, Python, Pandas
 
 ## Lernmodul über myBinder starten
 
